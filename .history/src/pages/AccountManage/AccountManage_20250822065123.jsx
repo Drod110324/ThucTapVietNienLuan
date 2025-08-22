@@ -308,7 +308,7 @@ const AccountManagePage = () => {
           handleModalCancel()
         }
       } else {
-        const response = await fetch('http://localhost:5000/taikhoan', {
+        const response = await fetch('http:
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(values)

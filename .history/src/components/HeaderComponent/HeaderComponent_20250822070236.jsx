@@ -234,8 +234,8 @@ const HeaderComponent = () => {
             enterButton={<SearchOutlined />}
             size="large"
             onSearch={handleSearch}
-      style={{  marginLeft: '120px',
-        width: '100%', 
+      style={{  marginLeft: '140px',
+        width: '140%', 
             }}
           />
         </div>

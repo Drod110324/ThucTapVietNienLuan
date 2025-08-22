@@ -62,8 +62,7 @@ const AdminProductPage = () => {
       }
       const data = await response.json();
       setStats(data);
-    } catch (error) {
-      console.error('Error fetching stats:', error);
+    } catch {
     }
   };
   const refreshData = async () => {
@@ -502,7 +501,7 @@ const AdminProductPage = () => {
                >
                  <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
                    <Input
-                     placeholder="https://example.com/image.jpg"
+                     placeholder="https:
                      value={mainImageUrl}
                      onChange={handleMainImageUrlChange}
                      style={{ flex: 1 }}

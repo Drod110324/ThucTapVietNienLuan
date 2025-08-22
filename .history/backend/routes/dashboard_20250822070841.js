@@ -5,7 +5,7 @@ const SanPham = require('../models/Product');
 router.get('/stats', async (req, res) => {
   try {
     const totalUsers = await TaiKhoan.countDocuments({ trangThai: true });
-    const totalProducts = await SanPham.countDocuments();
+    const totalProducts = await Product.countDocuments();
     const totalOrders = 156; 
     const totalRevenue = 125000000; 
     const revenueGrowth = 12.5;

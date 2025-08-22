@@ -1,1 +1,300 @@
-import React, { useState, useEffect } from 'react'import { Input, Button, Modal, notification } from 'antd'import { Link, useNavigate } from 'react-router-dom'import { WrapperContainerLeft } from './style'import { WrapperContainerRight } from './style'import { WrapperTextLight } from './style'import InputForm from '../../components/InputForm/InputForm'import ButtonComponent from '../../components/ButtonComponent/ButtonComponent'import Signin from '../../assets/images/Signin.png'import { EyeFilled, EyeInvisibleOutlined } from '@ant-design/icons'const SigninPage = () => {  const [IsshowPassword, setIsShowPassword] = useState(false)  const [isModalVisible, setIsModalVisible] = useState(false)  const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false)  const [email, setEmail] = useState('')  const [password, setPassword] = useState('')  const [loading, setLoading] = useState(false)  const [loginLoading, setLoginLoading] = useState(false)  const navigate = useNavigate()  const API_BASE_URL = 'http:  useEffect(() => {    const fromCart = sessionStorage.getItem('fromCart')    if (fromCart === 'true') {      notification.info({        message: 'Thông báo',        description: 'Vui lòng đăng nhập để xem giỏ hàng của bạn',        duration: 4,        placement: 'topRight'      })    }  }, [])  const handleLoginSuccess = async () => {    if (!email || !password) {      notification.error({        message: 'Lỗi đăng nhập',        description: 'Vui lòng nhập email và mật khẩu!',        duration: 3      });      return;    }    setLoginLoading(true);    try {      const response = await fetch(`${API_BASE_URL}/taikhoan/login`, {        method: 'POST',        headers: {          'Content-Type': 'application/json',        },        body: JSON.stringify({          email: email,          password: password        }),      });      const result = await response.json();      if (response.ok) {        const emailPrefix = result.user.email.split('@')[0];        const userInfo = {          username: result.user.username,          hoTen: result.user.hoTen || emailPrefix,           email: result.user.email,          soDienThoai: result.user.soDienThoai || '',          diaChi: result.user.diaChi || '',          vaiTro: result.user.vaiTro        };        localStorage.setItem('isLogin', 'true');        localStorage.setItem('userInfo', JSON.stringify(userInfo));        localStorage.setItem('userRole', result.user.vaiTro);        localStorage.setItem('userId', result.user._id);        const fromCart = sessionStorage.getItem('fromCart')        if (fromCart === 'true') {          sessionStorage.removeItem('fromCart')          notification.success({            message: 'Đăng nhập thành công!',            description: 'Chuyển hướng đến giỏ hàng...',            duration: 2          })          setTimeout(() => {            navigate('/cart')          }, 1000)        } else {          notification.success({            message: 'Đăng nhập thành công!',            duration: 2          })          navigate('/')        }      } else {        if (result.message === 'Tài khoản không tồn tại hoặc đã bị khóa') {          notification.error({            message: 'Lỗi đăng nhập',            description: 'Tài khoản không tồn tại hoặc đã bị khóa!',            duration: 3          });        } else if (result.message === 'Mật khẩu không đúng') {          notification.error({            message: 'Lỗi đăng nhập',            description: 'Mật khẩu không đúng!',            duration: 3          });        } else {          notification.error({            message: 'Lỗi đăng nhập',            description: result.message || 'Có lỗi xảy ra, vui lòng thử lại!',            duration: 3          });        }      }    } catch (error) {      console.error('Login error:', error);      notification.error({        message: 'Lỗi đăng nhập',        description: 'Không thể kết nối đến server, vui lòng thử lại!',        duration: 3      });    } finally {      setLoginLoading(false);    }  }  const showModal = () => {    setIsModalVisible(true)  }  const handleCancel = () => {    setIsModalVisible(false)    setEmail('')  }  const handleSuccessModalClose = () => {    setIsSuccessModalVisible(false)  }  const handleSendResetLink = async () => {    if (!email) {      notification.error({        message: 'Lỗi',        description: 'Vui lòng nhập email của bạn',        duration: 0      })      return    }    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/    if (!emailRegex.test(email)) {      notification.error({        message: 'Lỗi',        description: 'Email không hợp lệ',        duration: 0      })      return    }    setLoading(true)    try {      await new Promise(resolve => setTimeout(resolve, 1000))      console.log('Success message sent')      setIsModalVisible(false)      setEmail('')      setIsSuccessModalVisible(true)    } catch {      notification.error({        message: 'Lỗi',        description: 'Có lỗi xảy ra, vui lòng thử lại',        duration: 0      })    } finally {      setLoading(false)    }  }  return (    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#F2F2F2', height: '100vh'}}>      <div style={{width: '800px', height: '445px', borderRadius: '6px', background: '#fff', display: 'flex'}}>        <WrapperContainerLeft>        <h1 style={{fontSize: '32px', fontWeight: 'bold', marginBottom: '10px'}}>Xin Chào</h1>        <p style={{fontSize: '14px', marginBottom: '20px'}}>Đăng nhập để tiếp tục</p>          <InputForm             style={{marginBottom: '10px'}}             placeholder='Email'             type='email'            value={email}            onChange={(e) => setEmail(e.target.value)}          />          <div style={{position: 'relative'}}>            <span style={{              zIndex: '10',              position: 'absolute',              top: '50%',              right: '12px',              transform: 'translateY(-50%)',              cursor: 'pointer',              fontSize: '18px',              color: '#999'            }}>              {IsshowPassword ?                 <EyeFilled                   onClick={() => setIsShowPassword(!IsshowPassword)}                   style={{ fontSize: '18px' }}                /> :                 <EyeInvisibleOutlined                   onClick={() => setIsShowPassword(!IsshowPassword)}                   style={{ fontSize: '18px' }}                />              }            </span>                         <InputForm                style={{                 marginBottom: '10px',                 paddingRight: '40px'               }}                placeholder='Password'                type={IsshowPassword ? 'text' : 'password'}               value={password}               onChange={(e) => setPassword(e.target.value)}             />          </div>          <ButtonComponent               size={40}               styleButton={{                  height: '48px',                  width: '220px',                  borderRadius: '4px',                  border: 'none',                  background: 'rgb(255, 57, 69)',                  fontSize: '15px',                  fontWeight: '700',                  margin: '26px 0 10px'              }}              textButton={loginLoading ? 'Đang đăng nhập...' : 'Đăng Nhập'}              StyleTextButton={{color: '#fff', fontSize: '15px', fontWeight: '700'}}              onClick={handleLoginSuccess}              disabled={loginLoading}            />            <WrapperTextLight               onClick={showModal}              style={{cursor: 'pointer'}}            >              Quên mật khẩu?            </WrapperTextLight>        <p style={{fontSize: '14px', marginTop: '10px'}}>Bạn chưa có tài khoản? <Link to='/signup' style={{color: 'rgb(13, 92, 182)'}}>Đăng ký</Link></p>        <p style={{fontSize: '14px', marginTop: '10px'}}><Link to='/' style={{color: 'rgb(13, 92, 182)'}}>Quay Lại Trang Chủ</Link></p>        </WrapperContainerLeft>        <WrapperContainerRight>              <img src={Signin} alt="" style={{width: '100%', height: '100%', borderTopRightRadius: '6px', borderBottomRightRadius: '6px'}}/>        </WrapperContainerRight>      </div>      {}      <Modal        title="Quên mật khẩu"        open={isModalVisible}        onCancel={handleCancel}        footer={null}        width={400}      >        <div style={{ padding: '20px 0' }}>          <p style={{ marginBottom: '20px', color: '#666' }}>            Nhập email của bạn để nhận liên kết đặt lại mật khẩu          </p>          <Input            placeholder="Nhập email của bạn"            value={email}            onChange={(e) => setEmail(e.target.value)}            style={{ marginBottom: '20px' }}            onPressEnter={handleSendResetLink}          />          <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>            <Button onClick={handleCancel}>              Hủy            </Button>            <Button               type="primary"               onClick={handleSendResetLink}              loading={loading}              style={{ background: 'rgb(255, 57, 69)', borderColor: 'rgb(255, 57, 69)' }}            >              Gửi            </Button>          </div>        </div>      </Modal>      {}      <Modal        title="Thông báo"        open={isSuccessModalVisible}        onCancel={handleSuccessModalClose}        footer={null}        width={400}      >        <div style={{ padding: '20px 0' }}>          <p style={{ marginBottom: '20px', color: '#666' }}>            Nếu tồn tại tài khoản trùng khớp với email, chúng tôi sẽ gửi liên kết đặt lại mật khẩu, hãy kiểm tra email của bạn.          </p>          <Button             onClick={handleSuccessModalClose}             style={{               background: 'rgb(255, 57, 69)',               borderColor: 'rgb(255, 57, 69)',              color: '#fff'            }}          >            Đóng          </Button>        </div>      </Modal>    </div>  ) }export default SigninPage
+import React, { useState, useEffect } from 'react'
+import { Input, Button, Modal, notification } from 'antd'
+import { Link, useNavigate } from 'react-router-dom'
+import { WrapperContainerLeft } from './style'
+import { WrapperContainerRight } from './style'
+import { WrapperTextLight } from './style'
+import InputForm from '../../components/InputForm/InputForm'
+import ButtonComponent from '../../components/ButtonComponent/ButtonComponent'
+import Signin from '../../assets/images/Signin.png'
+import { EyeFilled, EyeInvisibleOutlined } from '@ant-design/icons'
+const SigninPage = () => {
+  const [IsshowPassword, setIsShowPassword] = useState(false)
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [loginLoading, setLoginLoading] = useState(false)
+  const navigate = useNavigate()
+  const API_BASE_URL = 'http://localhost:5000';
+  useEffect(() => {
+    const fromCart = sessionStorage.getItem('fromCart')
+    if (fromCart === 'true') {
+      notification.info({
+        message: 'Thông báo',
+        description: 'Vui lòng đăng nhập để xem giỏ hàng của bạn',
+        duration: 4,
+        placement: 'topRight'
+      })
+    }
+  }, [])
+  const handleLoginSuccess = async () => {
+    if (!email || !password) {
+      notification.error({
+        message: 'Lỗi đăng nhập',
+        description: 'Vui lòng nhập email và mật khẩu!',
+        duration: 3
+      });
+      return;
+    }
+    setLoginLoading(true);
+    try {
+      const response = await fetch(`${API_BASE_URL}/taikhoan/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password
+        }),
+      });
+      const result = await response.json();
+      if (response.ok) {
+        const emailPrefix = result.user.email.split('@')[0];
+        const userInfo = {
+          username: result.user.username,
+          hoTen: result.user.hoTen || emailPrefix, 
+          email: result.user.email,
+          soDienThoai: result.user.soDienThoai || '',
+          diaChi: result.user.diaChi || '',
+          vaiTro: result.user.vaiTro
+        };
+        localStorage.setItem('isLogin', 'true');
+        localStorage.setItem('userInfo', JSON.stringify(userInfo));
+        localStorage.setItem('userRole', result.user.vaiTro);
+        localStorage.setItem('userId', result.user._id);
+        const fromCart = sessionStorage.getItem('fromCart')
+        if (fromCart === 'true') {
+          sessionStorage.removeItem('fromCart')
+          notification.success({
+            message: 'Đăng nhập thành công!',
+            description: 'Chuyển hướng đến giỏ hàng...',
+            duration: 2
+          })
+          setTimeout(() => {
+            navigate('/cart')
+          }, 1000)
+        } else {
+          notification.success({
+            message: 'Đăng nhập thành công!',
+            duration: 2
+          })
+          navigate('/')
+        }
+      } else {
+        if (result.message === 'Tài khoản không tồn tại hoặc đã bị khóa') {
+          notification.error({
+            message: 'Lỗi đăng nhập',
+            description: 'Tài khoản không tồn tại hoặc đã bị khóa!',
+            duration: 3
+          });
+        } else if (result.message === 'Mật khẩu không đúng') {
+          notification.error({
+            message: 'Lỗi đăng nhập',
+            description: 'Mật khẩu không đúng!',
+            duration: 3
+          });
+        } else {
+          notification.error({
+            message: 'Lỗi đăng nhập',
+            description: result.message || 'Có lỗi xảy ra, vui lòng thử lại!',
+            duration: 3
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      notification.error({
+        message: 'Lỗi đăng nhập',
+        description: 'Không thể kết nối đến server, vui lòng thử lại!',
+        duration: 3
+      });
+    } finally {
+      setLoginLoading(false);
+    }
+  }
+  const showModal = () => {
+    setIsModalVisible(true)
+  }
+  const handleCancel = () => {
+    setIsModalVisible(false)
+    setEmail('')
+  }
+  const handleSuccessModalClose = () => {
+    setIsSuccessModalVisible(false)
+  }
+  const handleSendResetLink = async () => {
+    if (!email) {
+      notification.error({
+        message: 'Lỗi',
+        description: 'Vui lòng nhập email của bạn',
+        duration: 0
+      })
+      return
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      notification.error({
+        message: 'Lỗi',
+        description: 'Email không hợp lệ',
+        duration: 0
+      })
+      return
+    }
+    setLoading(true)
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      console.log('Success message sent')
+      setIsModalVisible(false)
+      setEmail('')
+      setIsSuccessModalVisible(true)
+    } catch {
+      notification.error({
+        message: 'Lỗi',
+        description: 'Có lỗi xảy ra, vui lòng thử lại',
+        duration: 0
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+  return (
+    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#F2F2F2', height: '100vh'}}>
+      <div style={{width: '800px', height: '445px', borderRadius: '6px', background: '#fff', display: 'flex'}}>
+        <WrapperContainerLeft>
+        <h1 style={{fontSize: '32px', fontWeight: 'bold', marginBottom: '10px'}}>Xin Chào</h1>
+        <p style={{fontSize: '14px', marginBottom: '20px'}}>Đăng nhập để tiếp tục</p>
+          <InputForm 
+            style={{marginBottom: '10px'}} 
+            placeholder='Email' 
+            type='email'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <div style={{position: 'relative'}}>
+            <span style={{
+              zIndex: '10',
+              position: 'absolute',
+              top: '50%',
+              right: '12px',
+              transform: 'translateY(-50%)',
+              cursor: 'pointer',
+              fontSize: '18px',
+              color: '#999'
+            }}>
+              {IsshowPassword ? 
+                <EyeFilled 
+                  onClick={() => setIsShowPassword(!IsshowPassword)} 
+                  style={{ fontSize: '18px' }}
+                /> : 
+                <EyeInvisibleOutlined 
+                  onClick={() => setIsShowPassword(!IsshowPassword)} 
+                  style={{ fontSize: '18px' }}
+                />
+              }
+            </span>
+                         <InputForm 
+               style={{
+                 marginBottom: '10px',
+                 paddingRight: '40px'
+               }} 
+               placeholder='Password' 
+               type={IsshowPassword ? 'text' : 'password'}
+               value={password}
+               onChange={(e) => setPassword(e.target.value)}
+             />
+          </div>
+          <ButtonComponent 
+              size={40} 
+              styleButton={{
+                  height: '48px',
+                  width: '220px',
+                  borderRadius: '4px',
+                  border: 'none',
+                  background: 'rgb(255, 57, 69)',
+                  fontSize: '15px',
+                  fontWeight: '700',
+                  margin: '26px 0 10px'
+              }}
+              textButton={loginLoading ? 'Đang đăng nhập...' : 'Đăng Nhập'}
+              StyleTextButton={{color: '#fff', fontSize: '15px', fontWeight: '700'}}
+              onClick={handleLoginSuccess}
+              disabled={loginLoading}
+            />
+            <WrapperTextLight 
+              onClick={showModal}
+              style={{cursor: 'pointer'}}
+            >
+              Quên mật khẩu?
+            </WrapperTextLight>
+        <p style={{fontSize: '14px', marginTop: '10px'}}>Bạn chưa có tài khoản? <Link to='/signup' style={{color: 'rgb(13, 92, 182)'}}>Đăng ký</Link></p>
+        <p style={{fontSize: '14px', marginTop: '10px'}}><Link to='/' style={{color: 'rgb(13, 92, 182)'}}>Quay Lại Trang Chủ</Link></p>
+        </WrapperContainerLeft>
+        <WrapperContainerRight>
+              <img src={Signin} alt="" style={{width: '100%', height: '100%', borderTopRightRadius: '6px', borderBottomRightRadius: '6px'}}/>
+        </WrapperContainerRight>
+      </div>
+      {}
+      <Modal
+        title="Quên mật khẩu"
+        open={isModalVisible}
+        onCancel={handleCancel}
+        footer={null}
+        width={400}
+      >
+        <div style={{ padding: '20px 0' }}>
+          <p style={{ marginBottom: '20px', color: '#666' }}>
+            Nhập email của bạn để nhận liên kết đặt lại mật khẩu
+          </p>
+          <Input
+            placeholder="Nhập email của bạn"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            style={{ marginBottom: '20px' }}
+            onPressEnter={handleSendResetLink}
+          />
+          <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
+            <Button onClick={handleCancel}>
+              Hủy
+            </Button>
+            <Button 
+              type="primary" 
+              onClick={handleSendResetLink}
+              loading={loading}
+              style={{ background: 'rgb(255, 57, 69)', borderColor: 'rgb(255, 57, 69)' }}
+            >
+              Gửi
+            </Button>
+          </div>
+        </div>
+      </Modal>
+      {}
+      <Modal
+        title="Thông báo"
+        open={isSuccessModalVisible}
+        onCancel={handleSuccessModalClose}
+        footer={null}
+        width={400}
+      >
+        <div style={{ padding: '20px 0' }}>
+          <p style={{ marginBottom: '20px', color: '#666' }}>
+            Nếu tồn tại tài khoản trùng khớp với email, chúng tôi sẽ gửi liên kết đặt lại mật khẩu, hãy kiểm tra email của bạn.
+          </p>
+          <Button 
+            onClick={handleSuccessModalClose} 
+            style={{ 
+              background: 'rgb(255, 57, 69)', 
+              borderColor: 'rgb(255, 57, 69)',
+              color: '#fff'
+            }}
+          >
+            Đóng
+          </Button>
+        </div>
+      </Modal>
+    </div>
+  ) 
+}
+export default SigninPage

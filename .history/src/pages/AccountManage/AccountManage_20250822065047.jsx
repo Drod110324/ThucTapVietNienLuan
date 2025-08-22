@@ -103,7 +103,7 @@ const AccountManagePage = () => {
   }
   const handleRoleChange = async (accountId, newRole) => {
     try {
-      const response = await fetch(`http://localhost:5000/taikhoan/${accountId}`, {
+      const response = await fetch(`http:
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ vaiTro: newRole })
@@ -120,7 +120,7 @@ const AccountManagePage = () => {
   }
   const handleStatusChange = async (accountId, newStatus) => {
     try {
-      const response = await fetch(`http://localhost:5000/taikhoan/${accountId}`, {
+      const response = await fetch(`http:
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ trangThai: newStatus })
@@ -137,7 +137,7 @@ const AccountManagePage = () => {
   }
   const handleDelete = async (accountId) => {
     try {
-      const response = await fetch(`http://localhost:5000/taikhoan/${accountId}`, {
+      const response = await fetch(`http:
         method: 'DELETE'
       })
       if (response.ok) {
@@ -294,7 +294,7 @@ const AccountManagePage = () => {
     try {
       const values = await form.validateFields()
       if (isEditMode && editingAccount) {
-        const response = await fetch(`http://localhost:5000/taikhoan/${editingAccount._id}`, {
+        const response = await fetch(`http:
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(values)
@@ -308,7 +308,7 @@ const AccountManagePage = () => {
           handleModalCancel()
         }
       } else {
-        const response = await fetch('http://localhost:5000/taikhoan', {
+        const response = await fetch('http:
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(values)

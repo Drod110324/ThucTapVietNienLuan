@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const TaiKhoan = require('../models/TaiKhoan');
-const SanPham = require('../models/Product');
+const SanPham = require('../models/SanPham');
 router.get('/stats', async (req, res) => {
   try {
     const totalUsers = await TaiKhoan.countDocuments({ trangThai: true });

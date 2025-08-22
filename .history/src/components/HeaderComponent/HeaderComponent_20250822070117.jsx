@@ -228,16 +228,46 @@ const HeaderComponent = () => {
           </Link>
         </div>
         <div style={{ flex: 1, maxWidth: '500px', margin: '0 20px' }}>
-          <Input.Search
-            placeholder="Tìm kiếm sản phẩm..."
-            allowClear
-            enterButton={<SearchOutlined />}
-            size="large"
-            onSearch={handleSearch}
-      style={{  marginLeft: '120px',
-        width: '100%', 
-            }}
-          />
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center',
+            background: '#fff',
+            borderRadius: '8px',
+            overflow: 'hidden',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+          }}>
+            <Input
+              placeholder="Tìm kiếm sản phẩm..."
+              allowClear
+              size="large"
+              onPressEnter={(e) => handleSearch(e.target.value)}
+              style={{ 
+                border: 'none',
+                boxShadow: 'none',
+                fontSize: '14px'
+              }}
+            />
+            <button
+              onClick={() => {
+                const input = document.querySelector('input[placeholder="Tìm kiếm sản phẩm..."]');
+                if (input) handleSearch(input.value);
+              }}
+              style={{
+                background: '#1890ff',
+                border: 'none',
+                padding: '8px 16px',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'background-color 0.3s'
+              }}
+              onMouseEnter={(e) => e.target.style.background = '#40a9ff'}
+              onMouseLeave={(e) => e.target.style.background = '#1890ff'}
+            >
+              <SearchOutlined style={{ color: '#fff', fontSize: '16px' }} />
+            </button>
+          </div>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
           {isLogin ? (
@@ -256,7 +286,7 @@ const HeaderComponent = () => {
                 color: '#fff'
               }}
               >
-                <UserOutlined style={{ fontSize: '18px' }} />
+                <UserOutlined style={{ fontSize: '14px' }} />
                 <span style={{ fontSize: '14px', fontWeight: '500' }}>
                   {getUserName()}
                 </span>
@@ -274,7 +304,7 @@ const HeaderComponent = () => {
               borderRadius: '6px'
             }}
             >
-              <UserOutlined style={{ fontSize: '18px' }} />
+              <UserOutlined style={{ fontSize: '14px' }} />
               <span style={{ fontSize: '14px', fontWeight: '500' }}>
                Đăng nhập/Đăng Ký
               </span>

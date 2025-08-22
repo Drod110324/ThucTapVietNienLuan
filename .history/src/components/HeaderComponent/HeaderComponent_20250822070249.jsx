@@ -235,7 +235,7 @@ const HeaderComponent = () => {
             size="large"
             onSearch={handleSearch}
       style={{  marginLeft: '120px',
-        width: '100%', 
+        width: '130%', 
             }}
           />
         </div>

@@ -62,7 +62,7 @@ const SignupPage = () => {
         }
         console.log(' Sending request to:', 'http://localhost:5000/taikhoan');
        console.log(' Request data:', accountData);
-       const res = await fetch('http://localhost:5000/taikhoan', {
+       const res = await fetch('http:
          method: 'POST',
          headers: { 'Content-Type': 'application/json' },
          body: JSON.stringify(accountData)

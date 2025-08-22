@@ -2,21 +2,7 @@
 
 Ứng dụng web thương mại điện tử chuyên về máy ảnh và phụ kiện nhiếp ảnh, được xây dựng với React + Node.js + MongoDB.
 
-## 📋 Mục lục
-
-- [Tính năng](#-tính-năng)
-- [Công nghệ sử dụng](#-công-nghệ-sử-dụng)
-- [Cài đặt](#-cài-đặt)
-- [Cấu hình Database](#-cấu-hình-database)
-- [Chạy ứng dụng](#-chạy-ứng-dụng)
-- [Cấu trúc dự án](#-cấu-trúc-dự-án)
-- [API Endpoints](#-api-endpoints)
-- [Tài khoản mặc định](#-tài-khoản-mặc-định)
-- [Xử lý sự cố](#-xử-lý-sự-cố)
-
-## ✨ Tính năng
-
-### 👤 Người dùng
+###  Người dùng
 - Đăng ký/Đăng nhập tài khoản
 - Xem danh sách sản phẩm
 - Tìm kiếm và lọc sản phẩm
@@ -25,7 +11,7 @@
 - Quản lý thông tin cá nhân
 - Xem lịch sử đơn hàng
 
-### 🔐 Admin
+###  Admin
 - Quản lý sản phẩm (CRUD)
 - Quản lý tài khoản người dùng
 - Thống kê doanh thu và đơn hàng
@@ -71,7 +57,7 @@ npm install
 
 ### 1. Cài đặt MongoDB
 
-#### Windows
+#### Option 1: MongoDB Community Server (Local)
 1. Tải MongoDB Community Server từ [mongodb.com](https://www.mongodb.com/try/download/community)
 2. Cài đặt với tùy chọn "Install MongoDB as a Service"
 3. Khởi động MongoDB service:
@@ -83,24 +69,76 @@ Get-Service -Name "MongoDB"
 Start-Service -Name "MongoDB"
 ```
 
-#### macOS/Linux
-```bash
-# Với Homebrew (macOS)
-brew tap mongodb/brew
-brew install mongodb-community
+#### Option 2: MongoDB Atlas (Cloud - Khuyến nghị)
+1. Truy cập [MongoDB Atlas](https://cloud.mongodb.com/)
+2. Tạo tài khoản miễn phí
+3. Tạo cluster mới (chọn Free tier)
+4. Tạo database user và whitelist IP
+5. Lấy connection string
 
-# Khởi động MongoDB
-brew services start mongodb-community
+### 2. Cài đặt MongoDB Compass (GUI Tool)
+
+#### Windows
+1. Tải MongoDB Compass từ [mongodb.com/try/download/compass](https://www.mongodb.com/try/download/compass)
+2. Chọn phiên bản phù hợp với hệ điều hành
+3. Cài đặt với tùy chọn mặc định
+4. Khởi động MongoDB Compass
+
+### 3. Kết nối MongoDB Compass
+
+#### Kết nối Local MongoDB
 ```
+mongodb://localhost:27017
+```
+
+#### Kết nối MongoDB Atlas
+```
+mongodb+srv://<username>:<password>@<cluster>.mongodb.net/<database>?retryWrites=true&w=majority
+```
+
+**Ví dụ:**
+```
+mongodb+srv://admin:password123@cluster0.abc123.mongodb.net/Camera?retryWrites=true&w=majority
+```
+
+### 4. Sử dụng MongoDB Compass
+
+#### Khám phá Database
+1. **Browse Collections:** Xem cấu trúc collections
+2. **Query Documents:** Tìm kiếm và lọc dữ liệu
+3. **Aggregation Pipeline:** Chạy aggregation queries
+4. **Schema Analysis:** Phân tích cấu trúc dữ liệu
+
+#### Quản lý dữ liệu
+1. **Insert Document:** Thêm document mới
+2. **Update Document:** Sửa đổi document
+3. **Delete Document:** Xóa document
+4. **Export/Import:** Xuất/nhập dữ liệu
+
+#### Monitoring
+1. **Performance:** Theo dõi hiệu suất queries
+2. **Indexes:** Quản lý indexes
+3. **Users:** Quản lý database users
+4. **Logs:** Xem database logs
 
 ### 2. Cấu hình Backend
 File `backend/config.env`:
+
+#### Cho Local MongoDB:
 ```env
 MONGODB_URI=mongodb://localhost:27017/Camera
 PORT=5000
 ```
 
-## 🚀 Chạy ứng dụng
+#### Cho MongoDB Atlas:
+```env
+MONGODB_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/Camera?retryWrites=true&w=majority
+PORT=5000
+```
+
+**Lưu ý:** Thay `<username>`, `<password>`, `<cluster>` bằng thông tin thực tế từ MongoDB Atlas.
+
+##  Chạy ứng dụng
 
 ### 1. Khởi động Backend
 ```bash
@@ -228,15 +266,34 @@ Get-Service -Name "MongoDB"
 Start-Service -Name "MongoDB"
 ```
 
+#### Lỗi: "MongoDB Atlas connection failed"
+1. **Kiểm tra Network Access:**
+   - Vào MongoDB Atlas → Network Access
+   - Thêm IP address hiện tại vào whitelist
+   - Hoặc thêm `0.0.0.0/0` để cho phép tất cả IP (chỉ dùng cho development)
+
+2. **Kiểm tra Database User:**
+   - Vào MongoDB Atlas → Database Access
+   - Đảm bảo user có quyền readWrite trên database
+
+3. **Kiểm tra Connection String:**
+   - Copy connection string từ MongoDB Atlas
+   - Thay `<password>` bằng password thực tế
+   - Đảm bảo database name đúng (ví dụ: `Camera`)
+
+4. **Test Connection:**
+   - Sử dụng MongoDB Compass để test connection trước
+   - Nếu Compass kết nối được, vấn đề có thể ở backend code
+
 ### 2. Frontend không kết nối được Backend
 
 #### Kiểm tra URL API
 Đảm bảo tất cả API calls đều có prefix `/api`:
 ```javascript
-// ❌ Sai
+//  Sai
 fetch('http://localhost:5000/taikhoan/login')
 
-// ✅ Đúng  
+//  Đúng  
 fetch('http://localhost:5000/api/taikhoan/login')
 ```
 
@@ -310,14 +367,6 @@ VITE_API_BASE_URL=http://localhost:5000/api
 ### Database Schema
 Xem file `backend/models/` để hiểu cấu trúc database.
 
-## 📞 Hỗ trợ
 
-Nếu gặp vấn đề:
-1. Kiểm tra console browser (F12)
-2. Kiểm tra terminal backend
-3. Kiểm tra MongoDB connection
-4. Đảm bảo tất cả services đang chạy
-
----
 
 **Lưu ý:** Đây là dự án thực tập, chỉ sử dụng cho mục đích học tập và phát triển.

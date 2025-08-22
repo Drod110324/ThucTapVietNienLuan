@@ -1,0 +1,81 @@
+[{
+  "_id": {
+    "$oid": "68a7b75449dcc63917b9a004"
+  },
+  "name": "Canon EOS R5",
+  "description": "Máy ảnh mirrorless full-frame với độ phân giải 45MP",
+  "price": 85000000,
+  "category": "máy ảnh",
+  "brand": "Canon",
+  "image": "https://via.placeholder.com/400x300?text=Canon+EOS+R5",
+  "images": [
+    "https://via.placeholder.com/400x300?text=Canon+EOS+R5+1",
+    "https://via.placeholder.com/400x300?text=Canon+EOS+R5+2"
+  ],
+  "stock": 10,
+  "rating": 4.8,
+  "sold": 25,
+  "status": "active",
+  "isActive": true,
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-08-22T00:18:28.604Z"
+  },
+  "updatedAt": {
+    "$date": "2025-08-22T00:18:28.604Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68a7b75449dcc63917b9a005"
+  },
+  "name": "Sony A7 IV",
+  "description": "Máy ảnh mirrorless full-frame với độ phân giải 33MP",
+  "price": 45000000,
+  "category": "máy ảnh",
+  "brand": "Sony",
+  "image": "https://via.placeholder.com/400x300?text=Sony+A7+IV",
+  "images": [
+    "https://via.placeholder.com/400x300?text=Sony+A7+IV+1",
+    "https://via.placeholder.com/400x300?text=Sony+A7+IV+2"
+  ],
+  "stock": 15,
+  "rating": 4.7,
+  "sold": 30,
+  "status": "active",
+  "isActive": true,
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-08-22T00:18:28.606Z"
+  },
+  "updatedAt": {
+    "$date": "2025-08-22T00:18:28.606Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68a7b75449dcc63917b9a006"
+  },
+  "name": "Nikon Z6 III",
+  "description": "Máy ảnh mirrorless full-frame với độ phân giải 24.5MP",
+  "price": 55000000,
+  "category": "máy ảnh",
+  "brand": "Nikon",
+  "image": "https://via.placeholder.com/400x300?text=Nikon+Z6+III",
+  "images": [
+    "https://via.placeholder.com/400x300?text=Nikon+Z6+III+1",
+    "https://via.placeholder.com/400x300?text=Nikon+Z6+III+2"
+  ],
+  "stock": 8,
+  "rating": 4.6,
+  "sold": 18,
+  "status": "active",
+  "isActive": true,
+  "__v": 0,
+  "createdAt": {
+    "$date": "2025-08-22T00:18:28.606Z"
+  },
+  "updatedAt": {
+    "$date": "2025-08-22T00:18:28.606Z"
+  }
+}]

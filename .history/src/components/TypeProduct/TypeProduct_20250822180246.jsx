@@ -1,0 +1,29 @@
+import React from 'react'
+const TypeProduct = ({ name, onClick }) => {
+  return (
+    <button
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '120px',
+        height: '40px',
+        padding: '8px 16px',
+        border: 'none',
+        borderRadius: 6,
+        background: '#fff',
+        color: '#1890ff',
+        fontWeight: '700',
+        fontSize: '16px',
+        cursor: 'pointer',
+        whiteSpace: 'nowrap',
+        textAlign: 'center',
+      }}
+      onClick={onClick}
+      title={name}
+    >
+      {name}
+    </button>
+  )
+}
+export default TypeProduct

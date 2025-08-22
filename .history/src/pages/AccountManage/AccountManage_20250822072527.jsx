@@ -103,11 +103,11 @@ const AccountManagePage = () => {
   }
   const handleRoleChange = async (accountId, newRole) => {
     try {
-              const response = await fetch(`http://localhost:5000/api/taikhoan/${accountId}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ vaiTro: newRole })
-        })
+      const response = await fetch(`http://localhost:5000/taikhoan/${accountId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ vaiTro: newRole })
+      })
       if (response.ok) {
         setAccounts(prev => prev.map(acc => 
           acc._id === accountId ? { ...acc, vaiTro: newRole } : acc

@@ -60,7 +60,7 @@ const SignupPage = () => {
           diaChi: '',
           vaiTro: 'user'
         }
-        console.log(' Sending request to:', 'http://localhost:5000/api/taikhoan');
+        console.log(' Sending request to:', 'http://localhost:5000/taikhoan');
        console.log(' Request data:', accountData);
        const res = await fetch('http://localhost:5000/api/taikhoan', {
          method: 'POST',

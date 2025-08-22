@@ -127,7 +127,7 @@ const ProfilePage = () => {
     }
     setSaving(true)
     try {
-              const res = await fetch(`http://localhost:5000/api/taikhoan/profile`, {
+      const res = await fetch(`http://localhost:5000/taikhoan/profile`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values),

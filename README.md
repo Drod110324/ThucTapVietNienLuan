@@ -1,4 +1,4 @@
-# ThucTapVietNienLuan - Ứng dụng Thương mại điện tử Camera
+# ThucTapVietNienLuan - Cửa hàng bán máy ảnh trực tuyến 
 
 Ứng dụng web thương mại điện tử chuyên về máy ảnh và phụ kiện nhiếp ảnh, được xây dựng với React + Node.js + MongoDB.
 

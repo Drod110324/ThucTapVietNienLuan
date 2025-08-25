@@ -1,8 +1,8 @@
-# 🚀 ThucTapVietNienLuan - Ứng dụng Thương mại điện tử Camera
+# ThucTapVietNienLuan - Ứng dụng Thương mại điện tử Camera
 
 Ứng dụng web thương mại điện tử chuyên về máy ảnh và phụ kiện nhiếp ảnh, được xây dựng với React + Node.js + MongoDB.
 
-###  Người dùng
+### Người dùng
 - Đăng ký/Đăng nhập tài khoản
 - Xem danh sách sản phẩm
 - Tìm kiếm và lọc sản phẩm
@@ -11,13 +11,13 @@
 - Quản lý thông tin cá nhân
 - Xem lịch sử đơn hàng
 
-###  Admin
+### Admin
 - Quản lý sản phẩm (CRUD)
 - Quản lý tài khoản người dùng
 - Thống kê doanh thu và đơn hàng
 - Dashboard quản trị
 
-## 🛠 Công nghệ sử dụng
+## Công nghệ sử dụng
 
 ### Frontend
 - **React 18** - Framework JavaScript
@@ -34,7 +34,7 @@
 - **bcryptjs** - Password Hashing
 - **CORS** - Cross-Origin Resource Sharing
 
-## 📦 Cài đặt
+## Cài đặt
 
 ### 1. Clone dự án
 ```bash
@@ -53,7 +53,7 @@ cd backend
 npm install
 ```
 
-## 🗄 Cấu hình Database
+## Cấu hình Database
 
 ### 1. Cài đặt MongoDB
 
@@ -62,10 +62,8 @@ npm install
 2. Cài đặt với tùy chọn "Install MongoDB as a Service"
 3. Khởi động MongoDB service:
 ```bash
-# Kiểm tra service
 Get-Service -Name "MongoDB"
 
-# Khởi động nếu chưa chạy
 Start-Service -Name "MongoDB"
 ```
 
@@ -138,16 +136,14 @@ PORT=5000
 
 **Lưu ý:** Thay `<username>`, `<password>`, `<cluster>` bằng thông tin thực tế từ MongoDB Atlas.
 
-##  Chạy ứng dụng
+## Chạy ứng dụng
 
 ### 1. Khởi động Backend
 ```bash
 cd backend
 
-# Chạy script setup database (chỉ chạy 1 lần đầu)
 node setup-database.js
 
-# Khởi động server
 node server.js
 ```
 
@@ -159,10 +155,8 @@ Server is running on port 5000
 
 ### 2. Khởi động Frontend
 ```bash
-# Mở terminal mới, quay về thư mục gốc
 cd ..
 
-# Khởi động React app
 npm run dev
 ```
 
@@ -178,7 +172,7 @@ npm run dev
 - **Frontend:** http://localhost:5173
 - **Backend API:** http://localhost:5000
 
-## 📁 Cấu trúc dự án
+## Cấu trúc dự án
 
 ```
 ThucTapVietNienLuan/
@@ -200,7 +194,7 @@ ThucTapVietNienLuan/
 └── README.md
 ```
 
-## 🔌 API Endpoints
+## API Endpoints
 
 ### Authentication
 - `POST /api/taikhoan/login` - Đăng nhập
@@ -223,7 +217,7 @@ ThucTapVietNienLuan/
 - `GET /api/dashboard/revenue` - Thống kê doanh thu
 - `GET /api/dashboard/top-products` - Sản phẩm bán chạy
 
-## 🔑 Tài khoản mặc định
+## Tài khoản mặc định
 
 Sau khi chạy `setup-database.js`, hệ thống sẽ có:
 
@@ -238,7 +232,7 @@ Sau khi chạy `setup-database.js`, hệ thống sẽ có:
 - Sony A7 IV - 45,000,000 VND  
 - Nikon Z6 III - 55,000,000 VND
 
-## 🚨 Xử lý sự cố
+## Xử lý sự cố
 
 ### 1. Backend không khởi động được
 
@@ -250,19 +244,15 @@ npm install
 
 #### Lỗi: "EADDRINUSE: address already in use :::5000"
 ```bash
-# Tìm process đang sử dụng port 5000
 netstat -ano | findstr :5000
 
-# Dừng process (thay PID bằng Process ID thực tế)
 taskkill /PID <PID> /F
 ```
 
 #### Lỗi: "MongoDB connection error"
 ```bash
-# Kiểm tra MongoDB service
 Get-Service -Name "MongoDB"
 
-# Khởi động MongoDB nếu cần
 Start-Service -Name "MongoDB"
 ```
 
@@ -290,17 +280,14 @@ Start-Service -Name "MongoDB"
 #### Kiểm tra URL API
 Đảm bảo tất cả API calls đều có prefix `/api`:
 ```javascript
-//  Sai
 fetch('http://localhost:5000/taikhoan/login')
 
-//  Đúng  
 fetch('http://localhost:5000/api/taikhoan/login')
 ```
 
 #### Kiểm tra CORS
 Backend đã có CORS middleware, nhưng nếu vẫn lỗi:
 ```javascript
-// Trong backend/server.js
 app.use(cors({
   origin: 'http://localhost:5173',
   credentials: true
@@ -317,7 +304,6 @@ node setup-database.js
 
 #### Kiểm tra kết nối MongoDB
 ```bash
-# Kiểm tra database có tồn tại
 mongosh --eval "use Camera; db.sanpham.find().count()"
 ```
 
@@ -325,7 +311,6 @@ mongosh --eval "use Camera; db.sanpham.find().count()"
 
 #### Kiểm tra tài khoản tồn tại
 ```bash
-# Test API đăng nhập
 curl -X POST http://localhost:5000/api/taikhoan/login \
   -H "Content-Type: application/json" \
   -d '{"username":"admin","password":"admin123"}'
@@ -334,7 +319,7 @@ curl -X POST http://localhost:5000/api/taikhoan/login \
 #### Kiểm tra password hash
 Model `TaiKhoan` sử dụng `bcryptjs` để hash password. Đảm bảo field name là `password` (không phải `matKhau`).
 
-## 📱 Sử dụng ứng dụng
+## Sử dụng ứng dụng
 
 ### 1. Đăng nhập Admin
 1. Truy cập http://localhost:5173
@@ -352,7 +337,7 @@ Model `TaiKhoan` sử dụng `bcryptjs` để hash password. Đảm bảo field 
 2. Vào menu "Quản lý tài khoản"
 3. Quản lý vai trò và trạng thái người dùng
 
-## 🔧 Development
+## Development
 
 ### Hot Reload
 - **Frontend:** Tự động reload khi thay đổi code

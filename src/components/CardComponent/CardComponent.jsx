@@ -10,7 +10,6 @@ const CardComponent = ({ product }) => {
   const productId = _id || id
   const [showGreenEffect, setShowGreenEffect] = useState(false)
   
-  // Use mainImage if available, otherwise fall back to image
   const displayImage = mainImage || image || ''
   const formatPrice = (price) => {
     if (!price) return 'Liên hệ'

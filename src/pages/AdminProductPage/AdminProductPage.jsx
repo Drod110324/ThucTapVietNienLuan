@@ -78,17 +78,15 @@ const AdminProductPage = () => {
   useEffect(() => {
     refreshData();
   }, []);
-  // Handle new product form success
   const handleAddProductSuccess = (newProduct) => {
-    setShowAddProductForm(false);
-    setProducts([newProduct, ...products]);
-    message.success('Thêm sản phẩm thành công!');
-  };
+setShowAddProductForm(false);
+setProducts([newProduct, ...products]);
+message.success('Thêm sản phẩm thành công!');
+};
 
-  // Handle close add product form
-  const handleCloseAddProductForm = () => {
-    setShowAddProductForm(false);
-  };
+const handleCloseAddProductForm = () => {
+setShowAddProductForm(false);
+};
 
   const handleSubmit = async (values) => {
     try {
@@ -141,10 +139,8 @@ const AdminProductPage = () => {
       if (response.ok) {
         const result = await response.json();
         message.success(`Xóa sản phẩm "${result.deletedProduct?.name || 'N/A'}" thành công!`);
-        // Remove product from local state immediately
         setProducts(products.filter(product => product._id !== id));
-        // Update stats
-        fetchStats();
+fetchStats();
       } else {
         const errorData = await response.json();
         message.error(errorData.message || 'Không thể xóa sản phẩm');

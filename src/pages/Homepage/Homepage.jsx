@@ -20,33 +20,31 @@ const Homepage = () => {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(false)
 
-  // Fetch products from database
   const fetchProducts = async () => {
-    setLoading(true)
-    try {
-      const response = await fetch('http://localhost:5000/api/products')
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-      const data = await response.json()
-      console.log('Raw products from API:', data)
-      
-      // Filter products for homepage - show products with isActive: true OR status: 'active' OR 'Hoạt động'
-      const activeProducts = data.filter(product => 
-        (product.isActive === true) || 
-        (product.status === 'active') || 
-        (product.status === 'Hoạt động')
-      ).slice(0, 8)
-      
-      console.log('Filtered active products:', activeProducts)
-      setProducts(activeProducts)
-    } catch (error) {
-      console.error('Error fetching products:', error)
-      message.error('Không thể tải danh sách sản phẩm')
-    } finally {
-      setLoading(false)
-    }
-  }
+setLoading(true)
+try {
+const response = await fetch('http://localhost:5000/api/products')
+if (!response.ok) {
+throw new Error(`HTTP error! status: ${response.status}`)
+}
+const data = await response.json()
+console.log('Raw products from API:', data)
+
+const activeProducts = data.filter(product => 
+(product.isActive === true) || 
+(product.status === 'active') || 
+(product.status === 'Hoạt động')
+).slice(0, 8)
+
+console.log('Filtered active products:', activeProducts)
+setProducts(activeProducts)
+} catch (error) {
+console.error('Error fetching products:', error)
+message.error('Không thể tải danh sách sản phẩm')
+} finally {
+setLoading(false)
+}
+}
 
   useEffect(() => {
     fetchProducts()
@@ -78,8 +76,7 @@ const Homepage = () => {
             maxWidth: '1200px'
           }}>
           {loading ? (
-            // Loading skeleton
-            Array.from({ length: 8 }).map((_, index) => (
+Array.from({ length: 8 }).map((_, index) => (
               <div key={index} style={{ 
                 width: '280px', 
                 height: '320px', 

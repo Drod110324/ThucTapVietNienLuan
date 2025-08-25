@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 require('dotenv').config({ path: './config.env' });
 
-// Kết nối MongoDB
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/Camera')
   .then(() => {
     console.log('Connected to MongoDB successfully!');
@@ -11,19 +10,16 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/Camera')
     console.error('MongoDB connection error:', error);
   });
 
-// Import models
 const SanPham = require('./models/Product');
 const TaiKhoan = require('./models/TaiKhoan');
 
 async function setupDatabase() {
   try {
-    // Xóa dữ liệu cũ
     await SanPham.deleteMany({});
-    await TaiKhoan.deleteMany({});
+await TaiKhoan.deleteMany({});
     
     console.log('Cleared existing data');
 
-    // Tạo dữ liệu sản phẩm mẫu
     const sanPhamData = [
       {
         name: 'Canon EOS R5',
@@ -78,12 +74,10 @@ async function setupDatabase() {
       }
     ];
 
-    // Thêm sản phẩm vào database
     await SanPham.insertMany(sanPhamData);
-    console.log('Added sample products');
+console.log('Added sample products');
 
-    // Tạo tài khoản admin mẫu
-    const adminAccount = {
+const adminAccount = {
       username: 'admin',
       email: 'admin@example.com',
       hoTen: 'Administrator',

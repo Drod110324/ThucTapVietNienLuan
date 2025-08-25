@@ -9,23 +9,22 @@ const ProductDetailsPage = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Fetch product details from database
   const fetchProduct = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch(`http://localhost:5000/api/products/${id}`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      setProduct(data);
-    } catch (error) {
-      console.error('Error fetching product:', error);
-      message.error('Không thể tải thông tin sản phẩm');
-    } finally {
-      setLoading(false);
-    }
-  };
+setLoading(true);
+try {
+const response = await fetch(`http://localhost:5000/api/products/${id}`);
+if (!response.ok) {
+throw new Error(`HTTP error! status: ${response.status}`);
+}
+const data = await response.json();
+setProduct(data);
+} catch (error) {
+console.error('Error fetching product:', error);
+message.error('Không thể tải thông tin sản phẩm');
+} finally {
+setLoading(false);
+}
+};
 
   useEffect(() => {
     if (id) {

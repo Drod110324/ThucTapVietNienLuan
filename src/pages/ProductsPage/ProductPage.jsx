@@ -10,42 +10,38 @@ const ProductPage = () => {
   const [loading, setLoading] = useState(false)
   const location = useLocation();
 
-  // Fetch products from database
   const fetchProducts = async () => {
-    setLoading(true)
-    try {
-      const response = await fetch('http://localhost:5000/api/products')
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-      const data = await response.json()
-      console.log('📦 Raw products from API:', data);
-      
-      // Filter products - show products with isActive: true OR status: 'active' OR 'Hoạt động'
-      const activeProducts = data.filter(product => 
-        (product.isActive === true) || 
-        (product.status === 'active') || 
-        (product.status === 'Hoạt động')
-      )
-      console.log('✅ Active products after filtering:', activeProducts);
-      console.log('🔍 Sample product structure:', activeProducts[0]);
-      
-      setProducts(activeProducts)
-    } catch (error) {
-      console.error('Error fetching products:', error)
-      // Set empty array if error occurs
-      setProducts([])
-    } finally {
-      setLoading(false)
-    }
-  }
+setLoading(true)
+try {
+const response = await fetch('http://localhost:5000/api/products')
+if (!response.ok) {
+throw new Error(`HTTP error! status: ${response.status}`)
+}
+const data = await response.json()
+console.log('📦 Raw products from API:', data);
+
+const activeProducts = data.filter(product => 
+(product.isActive === true) || 
+(product.status === 'active') || 
+(product.status === 'Hoạt động')
+)
+console.log('✅ Active products after filtering:', activeProducts);
+console.log('🔍 Sample product structure:', activeProducts[0]);
+
+setProducts(activeProducts)
+} catch (error) {
+console.error('Error fetching products:', error)
+setProducts([])
+} finally {
+setLoading(false)
+}
+}
 
   useEffect(() => {
     console.log('ProductPage mounted, fetching products...');
     fetchProducts();
   }, []);
 
-  // Sort products by creation date (newest first)
   const sortedProducts = [...products].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
   const [currentPage, setCurrentPage] = useState(1);
   const [filters, setFilters] = useState({
@@ -56,16 +52,15 @@ const ProductPage = () => {
     status: []
   });
   
-  // Đảm bảo filters luôn có đầy đủ properties
   const ensureFilters = (filters) => {
-    return {
-      categories: filters?.categories || [],
-      brands: filters?.brands || [],
-      priceRange: filters?.priceRange || [0, 100000000],
-      rating: filters?.rating || null,
-      status: filters?.status || []
-    };
-  };
+return {
+categories: filters?.categories || [],
+brands: filters?.brands || [],
+priceRange: filters?.priceRange || [0, 100000000],
+rating: filters?.rating || null,
+status: filters?.status || []
+};
+};
   const [searchTerm, setSearchTerm] = useState('');
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -75,16 +70,15 @@ const ProductPage = () => {
     console.log('📍 Location state:', location.state);
     console.log('🔍 Search params:', { category, search });
     
-    // Kiểm tra state từ navigation
     if (location.state?.selectedFilters) {
-      console.log('🎯 Setting filters from navigation:', location.state.selectedFilters);
-      setFilters(ensureFilters(location.state.selectedFilters));
-      setSearchTerm('');
-    } else if (search) {
-      setSearchTerm(search);
-    } else {
-      setSearchTerm('');
-    }
+console.log('🎯 Setting filters from navigation:', location.state.selectedFilters);
+setFilters(ensureFilters(location.state.selectedFilters));
+setSearchTerm('');
+} else if (search) {
+setSearchTerm(search);
+} else {
+setSearchTerm('');
+}
     
     if (category) {
       const newFilters = {

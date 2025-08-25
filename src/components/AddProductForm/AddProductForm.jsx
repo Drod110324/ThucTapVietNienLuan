@@ -28,7 +28,6 @@ const AddProductForm = ({ onClose, onSuccess }) => {
   const [loading, setLoading] = useState(false);
   const [auxiliaryImages, setAuxiliaryImages] = useState([]);
 
-  // Form initial values
   const initialValues = {
     name: '',
     category: '',
@@ -42,54 +41,46 @@ const AddProductForm = ({ onClose, onSuccess }) => {
     description: '',
   };
 
-  // Available options
   const categories = ['Máy ảnh', 'Ống kính', 'Phụ kiện', 'Gimbal', 'Máy quay'];
-  const brands = ['CANON', 'NIKON', 'SONY', 'FUJIFILM', 'DJI', 'GOPRO'];
-  const statuses = ['Hoạt động', 'Tạm ngưng', 'Hết hàng'];
+const brands = ['CANON', 'NIKON', 'SONY', 'FUJIFILM', 'DJI', 'GOPRO'];
+const statuses = ['Hoạt động', 'Tạm ngưng', 'Hết hàng'];
 
-  // Handle adding auxiliary image
   const handleAddAuxiliaryImage = () => {
-    const newImage = {
-      id: Date.now(),
-      url: '',
-    };
-    setAuxiliaryImages([...auxiliaryImages, newImage]);
-  };
+const newImage = {
+id: Date.now(),
+url: '',
+};
+setAuxiliaryImages([...auxiliaryImages, newImage]);
+};
 
-  // Handle removing auxiliary image
-  const handleRemoveAuxiliaryImage = (id) => {
-    setAuxiliaryImages(auxiliaryImages.filter(img => img.id !== id));
-  };
+const handleRemoveAuxiliaryImage = (id) => {
+setAuxiliaryImages(auxiliaryImages.filter(img => img.id !== id));
+};
 
-  // Handle auxiliary image URL change
-  const handleAuxiliaryImageChange = (id, url) => {
-    setAuxiliaryImages(auxiliaryImages.map(img => 
-      img.id === id ? { ...img, url } : img
-    ));
-  };
+const handleAuxiliaryImageChange = (id, url) => {
+setAuxiliaryImages(auxiliaryImages.map(img => 
+img.id === id ? { ...img, url } : img
+));
+};
 
-  // Handle form submission
   const handleSubmit = async (values) => {
-    try {
-      setLoading(true);
+try {
+setLoading(true);
 
-      // Prepare product data
-      const productData = {
-        ...values,
-        image: values.mainImage, // Map mainImage to image field for backward compatibility
-        images: auxiliaryImages
-          .filter(img => img.url.trim())
-          .map(img => img.url),
-        // Ensure all required fields are present
-        isActive: true,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      };
+const productData = {
+...values,
+image: values.mainImage,
+images: auxiliaryImages
+.filter(img => img.url.trim())
+.map(img => img.url),
+isActive: true,
+createdAt: new Date().toISOString(),
+updatedAt: new Date().toISOString(),
+};
 
-      console.log('Sending product data:', productData);
+console.log('Sending product data:', productData);
 
-      // Send to backend
-      const response = await fetch('http://localhost:5000/api/products', {
+const response = await fetch('http://localhost:5000/api/products', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -124,12 +115,11 @@ const AddProductForm = ({ onClose, onSuccess }) => {
     }
   };
 
-  // Handle cancel
   const handleCancel = () => {
-    if (onClose) {
-      onClose();
-    }
-  };
+if (onClose) {
+onClose();
+}
+};
 
   return (
     <div style={{ padding: '16px' }}>

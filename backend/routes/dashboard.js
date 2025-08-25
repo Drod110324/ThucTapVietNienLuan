@@ -148,7 +148,6 @@ router.get('/revenue', async (req, res) => {
 });
 router.get('/sales-report', async (req, res) => {
   try {
-    // Destructured variables are currently unused but may be needed for future filtering
     const salesReport = {
       summary: {
         totalSales: 125000000,

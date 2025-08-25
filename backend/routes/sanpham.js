@@ -67,14 +67,12 @@ router.put('/:id', async (req, res) => {
 });
 router.delete('/:id', async (req, res) => {
   try {
-    // Check if product exists first
     const existingProduct = await SanPham.findById(req.params.id);
-    if (!existingProduct) {
-      return res.status(404).json({ message: 'Sản phẩm không tồn tại' });
-    }
+if (!existingProduct) {
+return res.status(404).json({ message: 'Sản phẩm không tồn tại' });
+}
 
-    // Delete the product permanently
-    const deletedProduct = await SanPham.findByIdAndDelete(req.params.id);
+const deletedProduct = await SanPham.findByIdAndDelete(req.params.id);
     
     if (deletedProduct) {
       res.json({ 

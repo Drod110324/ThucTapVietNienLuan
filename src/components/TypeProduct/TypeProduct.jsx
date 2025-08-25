@@ -8,7 +8,6 @@ const TypeProduct = ({ name, onClick }) => {
     if (onClick) {
       onClick()
     } else {
-      // Chuyển đến trang products với bộ lọc theo danh mục
       navigate('/products', { 
         state: { 
           selectedCategory: name,

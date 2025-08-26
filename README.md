@@ -1,6 +1,6 @@
 # ThucTapVietNienLuan - Cửa hàng bán máy ảnh trực tuyến 
 
-Ứng dụng web thương mại điện tử chuyên về máy ảnh và phụ kiện nhiếp ảnh, được xây dựng với React + Node.js + MongoDB.
+Ứng dụng web thương mại điện tử về máy ảnh và phụ kiện nhiếp ảnh, được xây dựng với React + Node.js + MongoDB.
 
 ### Người dùng
 - Đăng ký/Đăng nhập tài khoản
@@ -194,45 +194,6 @@ ThucTapVietNienLuan/
 └── README.md
 ```
 
-## API Endpoints
-
-### Authentication
-- `POST /api/taikhoan/login` - Đăng nhập
-- `POST /api/taikhoan` - Đăng ký tài khoản mới
-
-### Products
-- `GET /api/products` - Lấy danh sách sản phẩm
-- `GET /api/products/:id` - Lấy chi tiết sản phẩm
-- `POST /api/admin/products` - Thêm sản phẩm mới (Admin)
-- `PUT /api/admin/products/:id` - Cập nhật sản phẩm (Admin)
-- `DELETE /api/admin/products/:id` - Xóa sản phẩm (Admin)
-
-### Accounts
-- `GET /api/taikhoan` - Lấy danh sách tài khoản (Admin)
-- `PUT /api/taikhoan/:id` - Cập nhật tài khoản
-- `DELETE /api/taikhoan/:id` - Xóa tài khoản (Admin)
-
-### Dashboard
-- `GET /api/dashboard/stats` - Thống kê tổng quan
-- `GET /api/dashboard/revenue` - Thống kê doanh thu
-- `GET /api/dashboard/top-products` - Sản phẩm bán chạy
-
-## Tài khoản mặc định
-
-Sau khi chạy `setup-database.js`, hệ thống sẽ có:
-
-### Admin Account
-- **Username:** `admin`
-- **Password:** `admin123`
-- **Email:** `admin@example.com`
-- **Vai trò:** `admin`
-
-### Sample Products
-- Canon EOS R5 - 85,000,000 VND
-- Sony A7 IV - 45,000,000 VND  
-- Nikon Z6 III - 55,000,000 VND
-
-## Xử lý sự cố
 
 ### 1. Backend không khởi động được
 
@@ -306,36 +267,6 @@ node setup-database.js
 ```bash
 mongosh --eval "use Camera; db.sanpham.find().count()"
 ```
-
-### 4. Lỗi đăng nhập
-
-#### Kiểm tra tài khoản tồn tại
-```bash
-curl -X POST http://localhost:5000/api/taikhoan/login \
-  -H "Content-Type: application/json" \
-  -d '{"username":"admin","password":"admin123"}'
-```
-
-#### Kiểm tra password hash
-Model `TaiKhoan` sử dụng `bcryptjs` để hash password. Đảm bảo field name là `password` (không phải `matKhau`).
-
-## Sử dụng ứng dụng
-
-### 1. Đăng nhập Admin
-1. Truy cập http://localhost:5173
-2. Click "Đăng nhập/Đăng Ký"
-3. Sử dụng tài khoản: `admin` / `admin123`
-4. Sau khi đăng nhập, menu Admin sẽ xuất hiện
-
-### 2. Quản lý sản phẩm
-1. Đăng nhập với tài khoản Admin
-2. Vào menu "Quản lý sản phẩm"
-3. Thêm/Sửa/Xóa sản phẩm
-
-### 3. Quản lý tài khoản
-1. Đăng nhập với tài khoản Admin  
-2. Vào menu "Quản lý tài khoản"
-3. Quản lý vai trò và trạng thái người dùng
 
 ## Development
 
